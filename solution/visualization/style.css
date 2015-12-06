@@ -53,18 +53,23 @@ h1 {
     .result .diff {
         border: solid 1px #cccccc;
     }
-    .result .mod {
-        background-color: #ffee99;
-    }
 
-    .result .del {
-        background-color: #ffdddd;
-    }
+        .result .diff p {
+            margin: 0;
+        }
 
-    .result .ins {
-        background-color: #ddffdd;
-    }
+        .result .mod {
+            background-color: #ffee99;
+        }
 
-    .result .no {
-        background-color: #ffffff;
-    }
+        .result .del {
+            background-color: #ffdddd;
+        }
+
+        .result .ins {
+            background-color: #ddffdd;
+        }
+
+        .result .no {
+            background-color: #ffffff;
+        }

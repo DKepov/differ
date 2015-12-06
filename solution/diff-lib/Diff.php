@@ -87,7 +87,7 @@ class Diff
         $jointArrHash = self::LCSAlgorithm($oArrHash, $nArrHash);
 
         // используем общую подпоследовательность для нахождения в массивх разниц
-        $difference = self::Difference($oArrHash, $nArrHash, $jointArrHash);
+        $difference = self::difference($oArrHash, $nArrHash, $jointArrHash);
 
         return $difference;
     }
@@ -172,7 +172,7 @@ class Diff
      *
      * @return array
      */
-    protected function Difference($oArrHash, $nArrHash, $jointArrHash)
+    protected function difference($oArrHash, $nArrHash, $jointArrHash)
     {
         $difference = [];
 

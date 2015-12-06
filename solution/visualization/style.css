@@ -1,0 +1,70 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 20px;
+}
+
+.wrap, .data, .result {
+    width: auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+.box {
+    width: 50%;
+    float: left;
+    padding: 20px;
+}
+
+    .box h2 span {
+        font-size: small;
+        color: #aaaaaa;
+    }
+
+    .box textarea {
+        width: 100%;
+        border: solid 1px #cccccc;
+    }
+
+.button {
+    padding: 0 20px 0 20px;
+    clear: both;
+}
+
+    .button input {
+        width: 100%;
+        border: solid 1px #aaaaaa;
+        padding: 0;
+        background-color: #aaaaaa;
+        color: #ffffff;
+        font-size: large;
+    }
+
+.result {
+    padding: 20px;
+}
+
+    .result .diff {
+        border: solid 1px #cccccc;
+    }
+    .result .mod {
+        background-color: #ffee99;
+    }
+
+    .result .del {
+        background-color: #ffdddd;
+    }
+
+    .result .ins {
+        background-color: #ddffdd;
+    }
+
+    .result .no {
+        background-color: #ffffff;
+    }

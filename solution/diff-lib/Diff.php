@@ -9,24 +9,28 @@
 class Diff
 {
 
+    /**
+     * Основная функция для сравнения двух текстов
+     *
+     * Основная функция для вызова сравнения двух текстов
+     *
+     * Возвращает текст, в котором все строки посвечены, особым образом
+     *
+     * @param $o
+     * @param $n
+     *
+     * @return string
+     */
     public static function compare($o, $n)
     {
         // разбиваем текста на массивы по строкам
         $oArr = preg_split('/\\r\\n?|\\n/', $o);
         $nArr = preg_split('/\\r\\n?|\\n/', $n);
 
-        // получаем для каждой строки хэш
-        $hoArr = self::hasher($oArr);
-        $hnArr = self::hasher($nArr);
+        // получаем для каждой строки хэш и общий хэш-массив
+        list($hashStrArr, $oArrHash, $nArrHash) = self::hasher($oArr, $nArr);
 
         // test возвращаем массивы после хэширования
-        //return print_r([$hoArr, $hnArr], true);
-
-        // разделяем хэши от строк, использовать в основной работе будем хэши, как полноправные замены строк
-        $oArrHash = array_keys($hoArr);
-        $nArrHash = array_keys($hnArr);
-
-        // test возвращаем хэши
         //return print_r([$oArrHash, $nArrHash], true);
 
         // вызываем поиск различий
@@ -36,32 +40,48 @@ class Diff
         //return print_r($diffArrHash, true);
 
         // визуализируем различия
-        $vizualText = self::visualizer($diffArrHash, $hoArr, $hnArr);
+        $vizualText = self::visualizer($diffArrHash, $hashStrArr);
 
         // собственно возвращаем результат
         return $vizualText;
     }
 
     /**
-     * Хэшируем входящий массив
+     * Хэшируем входящий массивы
      *
-     * Хэшируем входящий массив, ключем значения элемента становится хэш от самого значения элемента
-     * Нужно для того, чтобы работать не с исходными строками, а с их хэшами, что теоретически быстрее будет
+     * Хэшируем входящие массивы, добавляем все возможные строки из обоих массивов в общий словарь.
+     * Возвращаем массив из трех элементов.
+     * Первый элемент словарь, второй массив и третий массив - ссылки на значения в словаре, согласно позиции элемента.
      *
-     * @param $inputArr
+     * Хэшируем входящий массивы, ключами значений элемента становится хэш от самого значения элемента
+     *
+     * @param $oArr
+     * @param $nArr
      *
      * @return array
+     *
      */
-    private static function hasher($inputArr)
+    private static function hasher($oArr, $nArr)
     {
-        $resultHashArr = [];
-        foreach ($inputArr as $key => $value)
+        $hashStrArr = [];
+        $oArrHash = [];
+        $nArrHash = [];
+
+        foreach ($oArr as $key => $value)
         {
             $keyHash = sha1($value);
-            $resultHashArr[$keyHash] = $value;
+            $oArrHash[] = $keyHash;
+            $hashStrArr[$keyHash] = $value;
         }
 
-        return $resultHashArr;
+        foreach ($nArr as $key => $value)
+        {
+            $keyHash = sha1($value);
+            $nArrHash[] = $keyHash;
+            $hashStrArr[$keyHash] = $value;
+        }
+
+        return [$hashStrArr, $oArrHash, $nArrHash];
     }
 
     /**
@@ -235,12 +255,11 @@ class Diff
      *    а значение из первого массива выводим в скрытые данные строки
      *
      * @param $diffArrHash
-     * @param $hoArr
-     * @param $hnArr
+     * @param $hashStrArr
      *
      * @return string
      */
-    private function visualizer($diffArrHash, $hoArr, $hnArr)
+    private function visualizer($diffArrHash, $hashStrArr)
     {
         $vizualText = '';
 
@@ -250,21 +269,21 @@ class Diff
 
             if ($oItem && ! $nItem)
             {
-                $vizualText .= '<p class="del">'.$hoArr[$oItem].'</p>';
+                $vizualText .= '<p class="del">'.$hashStrArr[$oItem].'</p>';
             }
             elseif ( ! $oItem && $nItem)
             {
-                $vizualText .= '<p class="ins">'.$hnArr[$nItem].'</p>';
+                $vizualText .= '<p class="ins">'.$hashStrArr[$nItem].'</p>';
             }
             elseif ($oItem && $nItem)
             {
                 if ($oItem == $nItem)
                 {
-                    $vizualText .= '<p class="no">'.$hnArr[$nItem].'</p>';
+                    $vizualText .= '<p class="no">'.$hashStrArr[$nItem].'</p>';
                 }
                 else
                 {
-                    $vizualText .= '<p class="mod" data-storage="'.$hoArr[$oItem].'">'.$hnArr[$nItem].'</p>';
+                    $vizualText .= '<p class="mod" data-storage="'.$hashStrArr[$oItem].'">'.$hashStrArr[$nItem].'</p>';
                 }
             }
         }

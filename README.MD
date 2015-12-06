@@ -1,5 +1,5 @@
 # differ
 
-version: 0.5.0
+version: 0.6.0
 
 visualization for difference texts

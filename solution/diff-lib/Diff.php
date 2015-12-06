@@ -101,7 +101,7 @@ class Diff
      *
      * @return array
      */
-    private function differ($oArrHash, $nArrHash)
+    private static function differ($oArrHash, $nArrHash)
     {
         // находим общую подпоследовательность
         $jointArrHash = self::LCSAlgorithm($oArrHash, $nArrHash);
@@ -124,7 +124,7 @@ class Diff
      *
      * @return array
      */
-    private function LCSAlgorithm($oArrHash, $nArrHash)
+    private static function LCSAlgorithm($oArrHash, $nArrHash)
     {
         $maxLen = [];
         
@@ -192,7 +192,7 @@ class Diff
      *
      * @return array
      */
-    private function difference($oArrHash, $nArrHash, $jointArrHash)
+    private static function difference($oArrHash, $nArrHash, $jointArrHash)
     {
         $difference = [];
 
@@ -259,7 +259,7 @@ class Diff
      *
      * @return string
      */
-    private function visualizer($diffArrHash, $hashStrArr)
+    private static function visualizer($diffArrHash, $hashStrArr)
     {
         $vizualText = '';
 

@@ -172,7 +172,7 @@ class Diff
      *
      * @return array
      */
-    protected function difference($oArrHash, $nArrHash, $jointArrHash)
+    private function difference($oArrHash, $nArrHash, $jointArrHash)
     {
         $difference = [];
 
